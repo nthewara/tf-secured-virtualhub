@@ -17,9 +17,9 @@ Virtual WAN default route table contains special flags to allow above Firewall M
 
 In the example below we are implementing above configuration using Terraform 
 
-### below configuration implements both internet and private traffic filtering using Secured Hubs 
+below configuration implements both internet and private traffic filtering using Secured Hubs 
 
-```json
+```terraform
 resource "azurerm_virtual_hub_route_table_route" "fwroute" {
   route_table_id = "${azurerm_virtual_hub.vhub1.id}/hubRouteTables/defaultRouteTable"
 
@@ -31,9 +31,9 @@ resource "azurerm_virtual_hub_route_table_route" "fwroute" {
 }
 ```
 
-### below configuration implements private traffic filtering using Secured Hubs 
+below configuration implements private traffic filtering using Secured Hubs 
 
-```json 
+```terraform 
 resource "azurerm_virtual_hub_route_table_route" "fwroute" {
   route_table_id = "${azurerm_virtual_hub.vhub1.id}/hubRouteTables/defaultRouteTable"
 
