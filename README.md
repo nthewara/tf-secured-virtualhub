@@ -44,3 +44,17 @@ resource "azurerm_virtual_hub_route_table_route" "fwroute" {
     next_hop = azurerm_firewall.fwvhub1.id
 }
 ```
+
+below configuration implements internet traffic filtering using Secured Hubs 
+
+```terraform 
+resource "azurerm_virtual_hub_route_table_route" "fwroute" {
+  route_table_id = "${azurerm_virtual_hub.vhub1.id}/hubRouteTables/defaultRouteTable"
+
+    name = "public_traffic"
+    destinations_type = "CIDR"
+    destinations = ["0.0.0.0/0"]
+    next_hop_type = "ResourceId"
+    next_hop = azurerm_firewall.fwvhub1.id
+}
+```
