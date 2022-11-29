@@ -58,3 +58,39 @@ resource "azurerm_virtual_hub_route_table_route" "fwroute" {
     next_hop = azurerm_firewall.fwvhub1.id
 }
 ```
+
+## Configuring VNET Connections to Virtual WAN 
+
+Below configuration can be used for VNET Connections. Since we are using Secured Hub Firewall for traffic filter, we are propagating to None Routetable. 
+
+```terraform
+resource "azurerm_virtual_hub_connection" "hub_vnet2_con" {
+  name                      = "${var.prefix}-hubvnet2con"
+  virtual_hub_id            = azurerm_virtual_hub.vhub1.id
+  remote_virtual_network_id = azurerm_virtual_network.workload_vnet2.id
+  internet_security_enabled = true
+    routing {
+    associated_route_table_id = "${azurerm_virtual_hub.vhub1.id}/hubRouteTables/defaultRouteTable"
+    propagated_route_table {
+      route_table_ids = ["${azurerm_virtual_hub.vhub1.id}/hubRouteTables/noneRouteTable"]
+    }
+  }
+}
+```
+
+If there's any need for diabling default route propagation, this can be set by disabling "Internet_security_enabled" flag to false as per my example below 
+
+```terraform
+resource "azurerm_virtual_hub_connection" "hub_vnet1_con" {
+  name                      = "${var.prefix}-hubvnet1con"
+  virtual_hub_id            = azurerm_virtual_hub.vhub1.id
+  remote_virtual_network_id = azurerm_virtual_network.shared_vnet1.id
+  internet_security_enabled = false
+    routing {
+    associated_route_table_id = "${azurerm_virtual_hub.vhub1.id}/hubRouteTables/defaultRouteTable"
+    propagated_route_table {
+      route_table_ids = ["${azurerm_virtual_hub.vhub1.id}/hubRouteTables/noneRouteTable"]
+    }
+  }
+}
+```
