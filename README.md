@@ -61,7 +61,7 @@ resource "azurerm_virtual_hub_route_table_route" "fwroute" {
 
 ## Configuring VNET Connections to Virtual WAN 
 
-Below configuration can be used for VNET Connections. Since we are using Secured Hub Firewall for traffic filter, we are propagating to None Routetable. 
+Below configuration can be used for VNET connections. Since we are using Secured Hub Firewall for traffic filtering, we are propagating to None Routetable. 
 
 ```terraform
 resource "azurerm_virtual_hub_connection" "hub_vnet2_con" {
